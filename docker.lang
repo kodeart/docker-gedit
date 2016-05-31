@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Authors: Mihail Binev <mihail@kodeart.com>
+ Copyright (C) 2016 Mihail Binev <mihail@kodeart.com>
+ 
+ This library is free software; you can redistribute it and/or
+ modify it under the terms of the GNU Library General Public
+ License as published by the Free Software Foundation; either
+ version 2 of the License, or (at your option) any later version.
+ 
+ This library is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ Library General Public License for more details.
+ 
+ You should have received a copy of the GNU Library General Public
+ License along with this library; if not, write to the
+ Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ Boston, MA 02111-1307, USA.
+ 
+-->
+<language id="docker" _name="Dockerfile" version="2.0" _section="Scripts">
+    <metadata>
+        <property name="mimetypes">application/docker;text/docker</property>
+        <property name="globs">Dockerfile</property>
+        <property name="line-comment-start">#</property>
+    </metadata>
+ 
+    <styles>
+	    <style id="comment" _name="Comment" map-to="def:comment"/>
+	    <style id="keyword" _name="Keyword" map-to="def:keyword"/>
+	    <style id="string"  _name="String"  map-to="def:string"/>
+	    <style id="number"  _name="Number"  map-to="def:decimal"/>
+    </styles>
+ 
+    <definitions>
+        <context id="keywords" style-ref="keyword">
+            <keyword>FROM</keyword>
+            <keyword>MAINTAINER</keyword>
+            <keyword>RUN</keyword>
+            <keyword>CMD</keyword>
+            <keyword>LABEL</keyword>
+            <keyword>EXPOSE</keyword>
+            <keyword>ENV</keyword>
+            <keyword>ADD</keyword>
+            <keyword>COPY</keyword>
+            <keyword>ENTRYPOINT</keyword>
+            <keyword>VOLUME</keyword>
+            <keyword>USER</keyword>
+            <keyword>WORKDIR</keyword>
+            <keyword>ARG</keyword>
+            <keyword>ONBUILD</keyword>
+            <keyword>STOPSIGNAL</keyword>
+        </context>
+        <context id="comment" end-at-line-end="true" style-ref="comment" class-disabled="no-spell-check">
+            <start>#</start>
+        </context>
+        <context id="single-quoted-string" style-ref="string">
+            <start>'</start>
+            <end>'</end>
+        </context>
+        <context id="double-quoted-string" style-ref="string" class="string" class-disabled="no-spell-check">
+            <start>"</start>
+            <end>"</end>
+        </context>
+        <context id="numeric" style-ref="number">
+            <match extended="true">
+                (\b([0-9]+|0[xX][0-9a-fA-F]+)[Ll]?\b|
+                \b(([0-9]+[Ee][-]?[0-9]+|
+                ([0-9]*\.[0-9]+|[0-9]+\.)([Ee][-]?[0-9]+)?)[fFdD]?|
+                [0-9]+[FfDd]))
+            </match>
+        </context>
+        <context id="docker" class="no-spell-check">
+            <include>
+                <context ref="keywords"/>
+                <context ref="comment"/>
+                <context ref="single-quoted-string"/>
+                <context ref="double-quoted-string"/>
+                <context ref="numeric"/>
+            </include>
+        </context>
+    </definitions>
+</language>
